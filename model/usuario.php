@@ -1,5 +1,5 @@
 <?php
- class user{
+ class Usuario{
     //informacion basica del usuario
     private $nombre;
     private $primerApellido;
@@ -12,7 +12,7 @@
     
 
     //Constructor 
-    function user($nombre,$primerApellido,$segundoApellido,$correo,$username,$cliente){
+    function Usuario($nombre,$primerApellido,$segundoApellido,$correo,$username,$cliente){
         $this->setNombre($nombre);
         $this->setPrimerApellido($primerApellido);
         $this->setSegundoApellido($segundoApellido);
