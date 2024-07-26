@@ -47,84 +47,123 @@
             </div>
           </nav>
 
-    <section class="mt-5">
-        <div class="container-fluid background-image shadow ">
+        <div class="container-fluid background-image shadow-lg mt-5">
             <div class="row text-center py-5">
-                <h1 class="text-light">Inicio</h1>
-                                <p class="text-light my-3">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                     Quasi eum magnam voluptate asperiores mollitia repellat nemo dignissimos, 
-                     necessitatibus fuga quam ducimus, in provident corrupti distinctio deleniti
-                      eius animi. Laudantium, a. Lorem ipsum dolor sit amet
-                       consectetur adipisicing elit. Quisquam, natus voluptatibus 
-                       possimus molestias voluptates itaque tempora
-                       deserunt aliquam quia rerum incidunt impedit
-                        maxime minus quam libero quos neque eos quas!
-                </p>
+                <h1 class="text-light my-5">Tienda</h1>
             </div>
         </div>
-    </section>
 
-    <section>
-        <div class="container container-fluid my-4">
-            <div class="text-center mb-3">
-                <h2>¿Por que elegirnos?</h2>
+    <div class="container container-fluid">
+        <div class="row">
+            <div class="text-center my-3">
+                <h2>Nuestros Productos</h2>
             </div>
-            <div class="row row-cols-3">
+
+            <!--FILTRADO-->
+            <div class="row row-cols-4">
                 <div class="col">
-                    <div class="text-center">
-                        <h3><i class="fas fa-check"></i> Excelencia</h3>
-                        <div class="border-bottom"></div>
-                        <div class="px-3">
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur sapiente nesciunt repellat rerum veritatis rem eligendi praesentium dolore officia, expedita ipsa quisquam numquam harum porro maiores tempora nobis sit hic?</p>
-                        </div>
-                    </div>
+                    <input type="text" class="form-control" placeholder="Buscar producto..."/>
                 </div>
+                <div class="col"></div>
+                <div class="col"></div>
                 <div class="col">
-                    <div class="text-center">
-                        <h3><i class="fas fa-star"></i> Calidad</h3>
-                        <div class="border-bottom"></div>
-                        <div class="px-3">
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Commodi ea nam nemo voluptates nisi obcaecati! Alias quas asperiores quisquam quis itaque sapiente fugiat laboriosam blanditiis porro voluptatem, quo, libero natus.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="text-center">
-                        <h3><i class="fas fa-money-bill"></i> Precio</h3>
-                        <div class="border-bottom"></div>
-                        <div class="px-3">
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium dolore nisi doloremque nostrum eveniet recusandae repudiandae! Neque dolorum debitis asperiores dolorem, modi excepturi labore? Voluptates natus vel saepe ullam atque.</p>
-                        </div>
-                    </div>
+                    <select name="filtrado" id="filtrado" class="form-select">
+                        <option value="0">Filtrar</option>
+                        <option value="1">Precio menor a mayor</option>
+                        <option value="2">Precio mayor a menor</option>
+                    </select>
                 </div>
             </div>
+            <!--Productos @FOR@-->
+            <div class="row row-cols-4 my-4">
+                <!--SE DEBEN OBTENER LOS PRODUCTO DESDE LA SQL POR MEDIO DE UN FOR EACH-->
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body p-0 text-center">
+                            <figure>
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ640b6WPUrf7tMFMdku8G6hOM9O6RVmwoRQ&s" alt="">
+                                <figcaption>(0) Stock</figcaption>
+                            </figure>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="row">
+                                <button class="btn"><i class="fas fa-cart-plus"></i></button>
+                                <button class="btn btn-success">Ver Producto</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--PRODUCTOS TEST 1-->
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body p-0 text-center">
+                            <figure>
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ640b6WPUrf7tMFMdku8G6hOM9O6RVmwoRQ&s" alt="">
+                                <figcaption>(0) Stock</figcaption>
+                            </figure>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="row">
+                                <button class="btn"><i class="fas fa-cart-plus"></i></button>
+                                <button class="btn btn-success">Ver Producto</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body p-0 text-center">
+                            <figure>
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ640b6WPUrf7tMFMdku8G6hOM9O6RVmwoRQ&s" alt="">
+                                <figcaption>(0) Stock</figcaption>
+                            </figure>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="row">
+                                <button class="btn"><i class="fas fa-cart-plus"></i></button>
+                                <button class="btn btn-success">Ver Producto</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body p-0 text-center">
+                            <figure>
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ640b6WPUrf7tMFMdku8G6hOM9O6RVmwoRQ&s" alt="">
+                                <figcaption>(0) Stock</figcaption>
+                            </figure>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="row">
+                                <button class="btn"><i class="fas fa-cart-plus"></i></button>
+                                <button class="btn btn-success">Ver Producto</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body p-0 text-center">
+                            <figure>
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ640b6WPUrf7tMFMdku8G6hOM9O6RVmwoRQ&s" alt="">
+                                <figcaption>(0) Stock</figcaption>
+                            </figure>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="row">
+                                <button class="btn"><i class="fas fa-cart-plus"></i></button>
+                                <button class="btn btn-success">Ver Producto</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--PRODUCTOS FINISH-->
+
+            </div>
+
         </div>
-    </section>
-    <section class="bg-green-light shadow ">
-        <div class="row row-cols-3 p-3">
-            <div class="col text-center">
-                <h3>Nuestros Servicios</h3>
-                <img src="https://png.pngtree.com/png-vector/20231115/ourmid/pngtree-bedding-plants-nursery-plants-png-image_10606653.png" alt="">
-            </div>
-            <div class="m-5 col-5">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                    Quis deserunt sed totam ullam commodi inventore consequuntur 
-                    eligendi dignissimos fugiat nam, magnam cum iusto error culpa 
-                    tempore nesciunt, nostrum veritatis ratione! Lorem ipsum dolor sit amet, 
-                    consectetur adipisicing elit. Et, nam magnam possimus nobis sapiente
-                    quibusdam minima nisi consequuntur molestiae harum molestias eos rerum 
-                    laudantium. Fuga accusamus assumenda quaerat voluptatem autem?
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-                    Quis deserunt sed totam ullam commodi inventore consequuntur 
-                    eligendi dignissimos fugiat nam, magnam cum iusto error culpa 
-                    tempore nesciunt, nostrum veritatis ratione! Lorem ipsum dolor sit amet, 
-                    consectetur adipisicing elit. Et, nam magnam possimus nobis sapiente
-                    quibusdam minima nisi consequuntur molestiae harum molestias eos rerum 
-                    laudantium. Fuga accusamus assumenda quaerat voluptatem autem?
-                </p>
-            </div>
-        </div>
-    </section>
+    </div>
 
     
 
