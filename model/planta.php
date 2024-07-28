@@ -1,6 +1,6 @@
 <?php
 
-class planta 
+class Planta 
 {
     private $id;
     private $nombre;
@@ -9,7 +9,7 @@ class planta
     private $disponibles;
 
     //Constructor
-    function planta($nombre,$familia,$precio,$disponibles){
+    function Planta($nombre,$familia,$precio,$disponibles){
         $this->setNombre($nombre);
         $this->setNombre($familia);
         $this->setNombre($precio);
