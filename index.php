@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['user'])) {
+    header('Location: views/login.php');
+    exit();
+}
+$username = $_SESSION['user']['username'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +21,8 @@
     <link href="assetts/fontawesome/css/fontawesome.css" rel="stylesheet" />
     <link href="assetts/fontawesome/css/brands.css" rel="stylesheet" />
     <link href="assetts/fontawesome/css/solid.css" rel="stylesheet" />
-    <body>
+</head>
+<body>
     <nav class="navbar navbar-expand-lg bg-success fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand text-light" href="#"><i class="fas fa-leaf"></i></a>
@@ -22,7 +31,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link active text-light" aria-current="page" href="#">Inicio</a>
                     </li>
@@ -33,6 +42,14 @@
                         <a class="nav-link text-light" href="#">Pricing</a>
                     </li>
                 </ul>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <?php echo htmlspecialchars($username); ?>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="controllers/AuthControllers.php?action=logout">Cerrar sesión</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
@@ -95,6 +112,7 @@
             </div>
         </div>
     </section>
+
     <section class="bg-green-light">
         <div class="row row-cols-3 p-3">
             <div class="col text-center">
@@ -120,8 +138,6 @@
             </div>
         </div>
     </section>
-
-    
 
     <footer>
         <div class="row row-cols-4 bg-success p-3">
@@ -159,8 +175,5 @@
         </div>
     </footer>
 
-
-
 </body>
-
 </html>
