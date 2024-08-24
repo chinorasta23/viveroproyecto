@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../model/usuario.php';
-require_once '../config/database.php';
+require_once '../model/database.php';
 
 class AuthControllers {
     private $userModel;

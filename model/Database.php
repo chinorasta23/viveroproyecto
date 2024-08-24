@@ -1,11 +1,29 @@
 <?php
 
- class Database{
+require_once("../model/Utilities.php");
 
+ class database{
 
-    function connect(){
+    private static function connect($scriptSQL){
         //conexion a la base de datos
         try{
+        //cadena de conexion
+        $conexion = mysqli_connect(
+            'localhost',
+            'root',
+            '',
+            'viveroproyecto'
+        ) or die ('No se puede conectar a la DB');
+
+        //Ejecucion de los Scripts
+        $script = mysqli_query($conexion,$scriptSQL);
+        $resultado = array(
+            'exito' => $script,
+            'error' => mysqli_error($conexion),
+            'conexion' => $conexion
+        );
+
+        return $resultado;
 
         }catch(Exception $e){
             //Manejo del error 
@@ -13,36 +31,32 @@
         }
     }
 
-    function get($tabla,$id,$atributo){
+    public static function getData($scriptSQL){
         try{
+            $resultado = self::connect($scriptSQL);
+            $filas = array();
 
+            if($resultado['exito'] instanceof mysqli_result){
+                while($fila = mysqli_fetch_array($resultado['exito'], MYSQLI_ASSOC)){
+                    $filas[] = $fila;
+                }
+                self::closeConnection($resultado['conexion'],$resultado);
+                return $filas;
+            }else{
+                return $resultado;
+            }
         }catch(Exception $e){
             //Manejo del error 
             Utilities::alerta($e->getMessage());
         }
     }
 
-    function delete($tabla,$id){
+    private static function closeConnection($conexion,$resultado){
         try{
-
-        }catch(Exception $e){
-            //Manejo del error 
-            Utilities::alerta($e->getMessage());
-        }
-    }
-
-    function edit($tabla,$id,$atributo,$valor){
-        try{
-
-        }catch(Exception $e){
-            //Manejo del error 
-            Utilities::alerta($e->getMessage());
-        }
-    }
-
-    function closeConnection(){
-        try{
-            
+            mysqli_close($conexion);
+            if($resultado instanceof mysqli_result){
+                mysqli_free_result($resultado);
+            }    
         }catch(Exception $e){
             //Manejo del error 
             Utilities::alerta($e->getMessage());

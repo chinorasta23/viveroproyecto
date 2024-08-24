@@ -1,4 +1,6 @@
 <?php
+
+require_once("../model/database.php");
 class User {
     private $id;
     private $username;
@@ -38,6 +40,7 @@ class User {
     public function register($username, $email, $password) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+        database::getData($query);
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("sss", $username, $email, $hashedPassword);
         return $stmt->execute();
