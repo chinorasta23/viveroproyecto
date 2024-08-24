@@ -1,75 +1,63 @@
 <?php
- class Usuario{
-    //informacion basica del usuario
-    private $nombre;
-    private $primerApellido;
-    private $segundoApellido;
-    private $correo; 
-    private $username; //unico identificador en el sistema
+class User {
+    private $id;
+    private $username;
+    private $email;
+    private $db;
 
-    //valor booleano, permitira al usuario tener vista de empleado y acceso a funciones exclusivas de los empleados cuando el valor sea falso 
-    private $cliente; 
-    
-
-    //Constructor 
-    function Usuario($nombre,$primerApellido,$segundoApellido,$correo,$username,$cliente){
-        $this->setNombre($nombre);
-        $this->setPrimerApellido($primerApellido);
-        $this->setSegundoApellido($segundoApellido);
-        $this->setCorreo($correo);
-        $this->setUsername($username);
-        $this->setCliente($cliente);
+    function __construct($db) {
+        $this->db = $db;
     }
 
-//Setters
-    public function setNombre($nombre){
-        $this->nombre = $nombre;
+    // Setters
+    public function setId($id) {
+        $this->id = $id;
     }
 
-    public function setPrimerApellido($primerApellido){
-        $this->primerApellido = $primerApellido;
-    }
-
-    public function setSegundoApellido($segundoApellido){
-        $this->segundoApellido = $segundoApellido;
-    }
-
-    public function setCliente($cliente){
-        $this->cliente = $cliente;
-    }
-
-    public function setCorreo($correo){
-        $this->correo = $correo;
-    }
-
-    public function setUsername($username){
+    public function setUsername($username) {
         $this->username = $username;
     }
 
-//Getters
-    public function getNombre(){
-        return $this->nombre;
+    public function setEmail($email) {
+        $this->email = $email;
     }
 
-    public function getPrimerApellido(){
-        return $this->primerApellido;
+    // Getters
+    public function getId() {
+        return $this->id;
     }
 
-    public function getSegundoApellido(){
-        return $this->segundoApellido;
-    }
-
-    public function getCliente(){
-        return $this->cliente;
-    }
-
-    public function getCorreo(){
-        return $this->correo;
-    }
-
-    public function getUsername(){
+    public function getUsername() {
         return $this->username;
     }
 
- }
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function register($username, $email, $password) {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("sss", $username, $email, $hashedPassword);
+        return $stmt->execute();
+    }
+
+    public function login($username, $password) {
+        $query = "SELECT * FROM users WHERE username = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+
+        if ($user && password_verify($password, $user['password'])) {
+            $this->setId($user['id']);
+            $this->setUsername($user['username']);
+            $this->setEmail($user['email']);
+            return $user;
+        }
+        return false;
+    }
+}
 ?>
