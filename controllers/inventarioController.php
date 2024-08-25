@@ -26,10 +26,9 @@ class inventarioController{
         }
     }
 
-    public static function ctrlUpdatePlanta($data,$id){
+    public static function ctrlUpdatePlanta($data){
         try{
-            var_dump($data);
-            //return inventarioModel::editarPlanta($data,$id);
+            return inventarioModel::editarPlanta($data);
         }catch(Exception $e){
             Utilities::alerta($e->getMessage());
         }

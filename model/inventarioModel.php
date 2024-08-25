@@ -5,15 +5,15 @@ class inventarioModel
     public static function agregarPlanta($data){
         try{
             $sql = "'" . $data["Nombre"] . "'" . ", '" . $data["Cientifico"] . "'" . ", '" . $data["Clima"] . "'" . ", '" . $data["Descripcion"] . "'". ", '" . $data["Precio"] . "'". ", '" . $data["Cantidad"] . "'". ", '" . $data["Imagen"] . "'";
-            return database::getData("CALL pr_insert_Planta($sql)");
+            //return database::getData("CALL pr_insert_Planta($sql)");
         }catch(Exception $e){
             Utilities::alerta($e->getMessage());
         }
     }
 
-    public static function editarPlanta($data,$id){
+    public static function editarPlanta($data){
         try{
-            $sql = "'" . $id . "'" . ", '" . $data["Nombre"] . "'" . ", '" . $data["Cientifico"] . "'" . ", '" . $data["Clima"] . "'" . ", '" . $data["Descripcion"] . "'". ", '" . $data["Precio"] . "'". ", '" . $data["Cantidad"] . "'". ", '" . $data["Imagen"] . "'";
+            $sql = "'" . $data["Id"] . "'" . ", '" . $data["Nombre"] . "'" . ", '" . $data["Cientifico"] . "'" . ", '" . $data["Clima"] . "'" . ", '" . $data["Descripcion"] . "'". ", '" . $data["Precio"] . "'". ", '" . $data["Cantidad"] . "'". ", '" . $data["Imagen"] . "'";
             return database::getData("CALL pr_update_Planta($sql)");
         }catch(Exception $e){
             Utilities::alerta($e->getMessage());

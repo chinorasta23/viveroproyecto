@@ -5,7 +5,7 @@
     if(isset($_GET['accion'])){
         switch($_GET['accion']){
             case 'guardar':
-                inventarioController::ctrlUpdatePlanta($_POST,$_GET['id']);
+                inventarioController::ctrlUpdatePlanta($_POST);
                 header('Location: administrador.php');
                 break;
             case 'borrar':
@@ -83,14 +83,17 @@
                             <h5 class="modal-title" id="exampleModalLabel">Editar Planta</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form id="Editar<?=$planta['id_planta']?>" style="color: white;" method="post">
+                        <form action="administrador.php?accion=guardar" style="color: white;" method="post">
                             <div class="modal-body main-color">
                                 <div style="height: auto; margin-left: auto; margin-right: auto; margin-top: 1%;" class="main-color">
                                     <div style="padding: 10%;">
-                                        
+                                            <div class="mb-3">
+                                                <label class="form-label">Id</label>
+                                                <input type="text" class="form-control" name="Id" value="<?=$planta['id_planta']?>" readonly>
+                                            </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Nombre popular</label>
-                                                <input type="text" class="form-control" id="Nombre" value="<?=$planta['nombre_popular']?>">
+                                                <input type="text" class="form-control" name="Nombre" value="<?=$planta['nombre_popular']?>">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Nombre cientifico</label>
@@ -120,7 +123,7 @@
                                 </div>
                             </div>
                         <div class="modal-footer">
-                            <button id="guardar_<?=$planta['id_planta']?>" type="button" class="btn btn-success" data-bs-dismiss="modal">Guardar</button>
+                            <button id="guardar_<?=$planta['id_planta']?>" type="submit" class="btn btn-success" data-bs-dismiss="modal">Guardar</button>
                             <button id="borrar_<?=$planta['id_planta']?>" type="button" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
                         </div>
                         </form>
@@ -137,21 +140,6 @@
     <script>
         var botonesEditar = document.querySelectorAll('[id^="guardar"]');
         var botonesEliminar = document.querySelectorAll('[id^="borrar"]');
-
-        botonesEditar.forEach(function(boton) {
-            boton.addEventListener('click', function() {
-                var idProducto = this.id.replace('guardar_', '');
-                var nombre = document.getElementById("Nombre").value;
-                var cientifico
-                var clima
-                var descripcion
-                var precio
-                var cantidad 
-                var imagen
-                setTimeout(() => {window.location.href = "administrador.php?accion=guardar&id=" + idProducto},500);
-
-            });
-        });
         botonesEliminar.forEach(function(boton) {
             boton.addEventListener('click', function() {
                 var idProducto = this.id.replace('borrar_', '');
