@@ -1,0 +1,27 @@
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pr_delete_Planta`(IN `pId` INT(11))
+DELETE FROM planta WHERE id_planta=pId$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pr_get_Plantas`()
+SELECT * FROM planta$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pr_insert_Planta`(IN `pNombre` VARCHAR(50), IN `pCientifico` VARCHAR(50), IN `pClima` VARCHAR(05), IN `pDescripcion` TEXT, IN `pPrecio` DOUBLE, IN `pCantidad` INT(11), IN `pImagen` VARCHAR(2000))
+INSERT INTO planta (nombre_popular,nombre_cientifico,clima,descripcion,precio,stock,img) VALUES (pNombre,pCientifico,pClima,pDescripcion,pPrecio,pCantidad,pImagen)$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pr_update_Planta`(IN `pId` INT(11), IN `pNombre` VARCHAR(50), IN `pCientifico` VARCHAR(50), IN `pClima` VARCHAR(50), IN `pDescripcion` TEXT, IN `pPrecio` INT(11), IN `pCantidad` INT(11), IN `pImagen` VARCHAR(200))
+UPDATE planta set 
+nombre_popular=pNombre,
+nombre_Cientifico=pCientifico,
+clima=pClima,
+descripcion=pDescripcion,
+precio=pPrecio,
+stock=pCantidad,
+img=pImagen 
+WHERE id_planta=pId$$
+DELIMITER ;
