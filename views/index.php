@@ -1,10 +1,10 @@
 <?php
-session_start();
-if (!isset($_SESSION['user'])) {
-    header('Location: views/login.php');
-    exit();
-}
-$username = $_SESSION['user']['username'];
+// session_start();
+// if (!isset($_SESSION['user'])) {
+//     header('Location: views/login.php');
+//     exit();
+// }
+// $username = $_SESSION['user']['username'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
