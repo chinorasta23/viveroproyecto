@@ -1,11 +1,11 @@
 <?php
-require_once("../model/database.php");
+require_once("database.php");
 class inventarioModel 
 {
-    public static function agregarPlanta($data){
+    public static function agregarPlanta($data,$img){
         try{
-            $sql = "'" . $data["Nombre"] . "'" . ", '" . $data["Cientifico"] . "'" . ", '" . $data["Clima"] . "'" . ", '" . $data["Descripcion"] . "'". ", '" . $data["Precio"] . "'". ", '" . $data["Cantidad"] . "'". ", '" . $data["Imagen"] . "'";
-            //return database::getData("CALL pr_insert_Planta($sql)");
+            $sql = "'" . $data["Nombre"] . "'" . ", '" . $data["Cientifico"] . "'" . ", '" . $data["Clima"] . "'" . ", '" . $data["Descripcion"] . "'". ", '" . $data["Precio"] . "'". ", '" . $data["Cantidad"] . "'". ", '" . "$img" . "'";
+            return database::getData("CALL pr_insert_Planta($sql)");
         }catch(Exception $e){
             Utilities::alerta($e->getMessage());
         }

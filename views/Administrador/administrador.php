@@ -1,5 +1,5 @@
 <?php 
-    require_once("../controllers/inventarioController.php");
+    require_once("../../controllers/inventarioController.php");
     $inventario = inventarioController::ctrlGetPlantas();
 
     if(isset($_GET['accion'])){
@@ -22,11 +22,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="../assetts/fontawesome/css/fontawesome.css" rel="stylesheet" />
-    <link href="../assetts/fontawesome/css/brands.css" rel="stylesheet" />
-    <link href="../assetts/fontawesome/css/solid.css" rel="stylesheet" />
+    <link href="../../assetts/fontawesome/css/fontawesome.css" rel="stylesheet" />
+    <link href="../../assetts/fontawesome/css/brands.css" rel="stylesheet" />
+    <link href="../../assetts/fontawesome/css/solid.css" rel="stylesheet" />
 </head>
 <body>
         <nav class="navbar navbar-expand-lg bg-success">
@@ -50,7 +50,7 @@
                             <!--?php echo htmlspecialchars($username); ?-->
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="controllers/AuthControllers.php?action=logout">Cerrar sesión</a></li>
+                            <li><a class="dropdown-item" href="../../controllers/AuthControllers.php?action=logout">Cerrar sesión</a></li>
                         </ul>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
         ?>
         <div class="col">
             <div class="card h-100">
-                <img src="../assetts/plantaStock.jpg" class="card-img-top">
+                <img src="../../assetts/uploads/<?=$planta['img']?>.jpg" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title"><?=$planta['nombre_popular']?></h5>
                     <p class="card-text"><?=$planta['nombre_cientifico']?></p>

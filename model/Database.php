@@ -1,6 +1,6 @@
 <?php
 
-require_once("../model/Utilities.php");
+require_once("Utilities.php");
 
  class database{
 
