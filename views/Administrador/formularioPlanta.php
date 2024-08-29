@@ -1,9 +1,12 @@
 <?php
-    require_once("../controllers/inventarioController.php");
-    require_once("../model/Utilities.php");
+    require_once("../../controllers/inventarioController.php");
+    require_once("../../model/Utilities.php");
     if(isset($_POST['agregar'])){
-        $result = inventarioController::ctrlAddPlanta($_POST);
+        $img = basename($_FILES["Imagen"]["name"],".jpg");
+        $result = inventarioController::ctrlAddPlanta($_POST,$img);
         if($result == true){
+                $target = "../../assetts/uploads/" . basename($_FILES["Imagen"]["name"]);
+                move_uploaded_file($_FILES["Imagen"]["tmp_name"], $target);
                 Utilities::alerta("Articulo agregado correctamente");
             }else{
                 Utilities::alerta("No se pudo agregar el articulo");
@@ -18,11 +21,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../../css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="../assetts/fontawesome/css/fontawesome.css" rel="stylesheet" />
-    <link href="../assetts/fontawesome/css/brands.css" rel="stylesheet" />
-    <link href="../assetts/fontawesome/css/solid.css" rel="stylesheet" />
+    <link href="../../assetts/fontawesome/css/fontawesome.css" rel="stylesheet" />
+    <link href="../../assetts/fontawesome/css/brands.css" rel="stylesheet" />
+    <link href="../../assetts/fontawesome/css/solid.css" rel="stylesheet" />
 </head>
 <body>
         <nav class="navbar navbar-expand-lg bg-success">
@@ -51,7 +54,7 @@
 
         <div style="width:600px; height: auto; margin-left: auto; margin-right: auto; margin-top: 50px; border-radius: 5%;" class="main-color">
             <div style="padding: 10%;">
-                <form id="Agregar" style="color: white;" action="../views/formularioPlanta.php?action=addPlanta" method="post">
+                <form id="Agregar" style="color: white;" action="formularioPlanta.php?action=addPlanta" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label class="form-label">Nombre popular</label>
                         <input type="text" class="form-control" name="Nombre">
@@ -78,7 +81,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Imagen</label>
-                        <input type="number" min="0" step="1" class="form-control" name="Imagen">
+                        <input type="file" class="form-control" name="Imagen" id="Imagen">
                     </div>
                     <div class="d-grid gap-2">
                         <button type="submit" name="agregar" class="btn" style="background-color: #ffc120; color: white;">Agregar</button>

@@ -1,10 +1,10 @@
 <?php
-require_once("../model/inventarioModel.php");
+require_once("../../model/inventarioModel.php");
 
 class inventarioController{
-    public static function ctrlAddPlanta($data){
+    public static function ctrlAddPlanta($data,$img){
         try{
-            return inventarioModel::agregarPlanta($data);
+            return inventarioModel::agregarPlanta($data,$img);
         }catch(Exception $e){
             Utilities::alerta($e->getMessage());
         }
