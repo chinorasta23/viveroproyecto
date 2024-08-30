@@ -1,10 +1,10 @@
 <?php
-// session_start();
-// if (!isset($_SESSION['user'])) {
-//     header('Location: ../views/login.php');
-//     exit();
-// }
-// $username = $_SESSION['user']['username'];
+session_start();
+if (!isset($_SESSION['usuario'])) {
+    header("Location: ../login.php");
+    exit();
+}
+$username = $_SESSION['usuario'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +44,7 @@
                         <?php echo htmlspecialchars($username); ?>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="controllers/AuthControllers.php?action=logout">Cerrar sesión</a></li>
+                        <li><a class="dropdown-item" href="../../controllers/AuthControllers.php?action=logout">Cerrar sesión</a></li>
                     </ul>
                 </div>
             </div>

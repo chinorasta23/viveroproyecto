@@ -1,5 +1,10 @@
 <?php
     require_once("../../controllers/inventarioController.php");
+    
+    // Iniciar la sesión y obtener el nombre de usuario
+    session_start();
+    $username = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Invitado';
+
     $inventario = inventarioController::ctrlGetPlantas();
 
     if(isset($_GET['accion'])){
@@ -14,7 +19,6 @@
                 break;
         }
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +26,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vivero</title>
+    <title>Vivero - Tienda</title>
     <link rel="stylesheet" href="../../css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>    
@@ -42,20 +46,15 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active text-light" aria-current="page" href="index.php">Inicio</a>
+                        <a class="nav-link text-light" href="index.php">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light" href="tienda.php">Tienda</a>
+                        <a class="nav-link active text-light" aria-current="page" href="tienda.php">Tienda</a>
                     </li>
                 </ul>
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <?php echo htmlspecialchars($username); ?>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="controllers/AuthControllers.php?action=logout">Cerrar sesión</a></li>
-                    </ul>
-                </div>
+                <span class="navbar-text text-light">
+                    <?php echo htmlspecialchars($username); ?>
+                </span>
             </div>
         </div>
     </nav>

@@ -1,64 +1,75 @@
+<?php
+session_start();
+$error_message = isset($_SESSION['error_login']) ? $_SESSION['error_login'] : '';
+unset($_SESSION['error_login']); // Limpiamos el mensaje de error después de usarlo
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Vivero</title>
+    <title>Iniciar Sesión</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assetts/fontawesome/css/fontawesome.css" rel="stylesheet" />
+    <link href="../assetts/fontawesome/css/brands.css" rel="stylesheet" />
+    <link href="../assetts/fontawesome/css/solid.css" rel="stylesheet" />
     <style>
         body {
-            padding-top: 60px;
+            background-color: #f8f9fa;
         }
-        .login-form {
+        .form-container {
             max-width: 400px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-        .btn-register {
-            display: block;
-            width: 100%;
-            margin-top: 10px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         .error-message {
             background-color: #f8d7da;
-            border-color: #f5c6cb;
+            border: 1px solid #f5c6cb;
             color: #721c24;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid transparent;
-            border-radius: .25rem;
+            border-radius: 4px;
             text-align: center;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-success fixed-top">
+    <nav class="navbar navbar-expand-lg bg-success">
         <div class="container-fluid">
-            <a class="navbar-brand text-light" href="#">Vivero</a>
+            <a class="navbar-brand text-light" href="#"><i class="fas fa-leaf"></i></a>
         </div>
     </nav>
     <div class="container">
-        <?php if(isset($_GET['error']) && $_GET['error'] == 1): ?>
-        <div class="error-message">
-            Nombre de usuario o contraseña incorrectos.
-        </div>
-        <?php endif; ?>
-        <?php if(isset($_GET['registered']) && $_GET['registered'] == 1): ?>
-        <div class="alert alert-success text-center">
-            Registro exitoso. Por favor, inicia sesión.
-        </div>
-        <?php endif; ?>
-        <form class="login-form" action="../controllers/AuthControllers.php?action=login" method="POST">
+        <div class="form-container">
             <h2 class="text-center mb-4">Iniciar Sesión</h2>
-            <div class="mb-3">
-                <input type="text" name="username" class="form-control" placeholder="Nombre de usuario" required>
+            <?php if (!empty($error_message)): ?>
+                <div class="error-message">
+                    Contraseña o usuario incorrecto
+                </div>
+            <?php endif; ?>
+            <form action="../controllers/AuthControllers.php" method="post">
+                <input type="hidden" name="action" value="login">
+               
+                <div class="mb-3">
+                    <label for="username" class="form-label">Nombre de usuario:</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+               
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña:</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+               
+                <button type="submit" class="btn btn-success w-100">Iniciar Sesión</button>
+            </form>
+            <div class="text-center mt-3">
+                <p>¿No tienes una cuenta?</p>
+                <a href="register.php" class="btn btn-outline-success">Registrarse</a>
             </div>
-            <div class="mb-3">
-                <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
-            </div>
-            <button type="submit" class="btn btn-success w-100">Iniciar Sesión</button>
-            <a href="register.php" class="btn btn-outline-success btn-register">Regístrate aquí</a>
-        </form>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
