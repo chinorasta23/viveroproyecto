@@ -5,8 +5,13 @@
     if(isset($_GET['accion'])){
         switch($_GET['accion']){
             case 'guardar':
-                inventarioController::ctrlUpdatePlanta($_POST);
-                header('Location: administrador.php');
+                $img = basename($_FILES["Imagen"]["name"],".jpg");
+                $result = inventarioController::ctrlUpdatePlanta($_POST,$img);
+                if($result == true){
+                    $target = "../../assetts/uploads/" . basename($_FILES["Imagen"]["name"]);
+                    move_uploaded_file($_FILES["Imagen"]["tmp_name"], $target);
+                }
+                //header('Location: administrador.php');
                 break;
             case 'borrar':
                 inventarioController::ctrlDelPlanta($_GET['id']);
@@ -83,7 +88,7 @@
                             <h5 class="modal-title" id="exampleModalLabel">Editar Planta</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form action="administrador.php?accion=guardar" style="color: white;" method="post">
+                        <form action="administrador.php?accion=guardar" style="color: white;" method="post" enctype="multipart/form-data">
                             <div class="modal-body main-color">
                                 <div style="height: auto; margin-left: auto; margin-right: auto; margin-top: 1%;" class="main-color">
                                     <div style="padding: 10%;">
@@ -117,13 +122,14 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Imagen</label>
-                                                <input type="number" min="0" step="1" class="form-control" name="Imagen" value="<?=$planta['img']?>">
+                                                <input type="file" class="form-control" name="Imagen">
+                                                <input  type="hidden" name="ImagenActual" value="<?=$planta['img']?>">
                                             </div>
                                     </div>
                                 </div>
                             </div>
                         <div class="modal-footer">
-                            <button id="guardar_<?=$planta['id_planta']?>" type="submit" class="btn btn-success" data-bs-dismiss="modal">Guardar</button>
+                            <button id="guardar" type="submit" class="btn btn-success" data-bs-dismiss="modal">Guardar</button>
                             <button id="borrar_<?=$planta['id_planta']?>" type="button" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
                         </div>
                         </form>
@@ -138,7 +144,6 @@
 
 <!--Scripts de la pagina-->
     <script>
-        var botonesEditar = document.querySelectorAll('[id^="guardar"]');
         var botonesEliminar = document.querySelectorAll('[id^="borrar"]');
         botonesEliminar.forEach(function(boton) {
             boton.addEventListener('click', function() {

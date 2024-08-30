@@ -2,6 +2,19 @@
     require_once("../../controllers/inventarioController.php");
     $inventario = inventarioController::ctrlGetPlantas();
 
+    if(isset($_GET['accion'])){
+        switch($_GET['accion']){
+            case 'comprar':
+                if(inventarioController::ctrlVerificarCantidad($_POST)){
+                    inventarioController::ctrlComprarPlanta($_POST);
+                    Utilities::alerta("Comprado con exito");
+                }else{
+                    Utilities::alerta("No hay stock suficiente");
+                }
+                break;
+        }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -68,13 +81,14 @@
                             <h5 class="modal-title" id="exampleModalLabel"><?=$planta['nombre_popular']?></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form action="administrador.php?accion=comprar" style="color: white;" method="post">
+                        <form action="tienda.php?accion=comprar" style="color: white;" method="post">
                             <div class="modal-body main-color">
                                 <div style="height: auto; margin-left: auto; margin-right: auto; margin-top: 1%;" class="main-color">
                                     <div style="padding: 10%;">
                                             <div class="mb-3">
                                                 <label class="form-label">Nombre cientifico</label>
                                                 <input type="text" class="form-control" name="Cientifico" value="<?=$planta['nombre_cientifico']?>" disabled>
+                                                <input type="hidden"  name="Id" value="<?=$planta['id_planta']?>">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Clima</label>
@@ -96,7 +110,7 @@
                                 </div>
                             </div>
                         <div class="modal-footer">
-                            <button id="comprar_<?=$planta['id_planta']?>" type="submit" class="btn btn-success" data-bs-dismiss="modal">Comprar</button>
+                            <button id="comprar" type="submit" class="btn btn-success" data-bs-dismiss="modal">Comprar</button>
                             <button id="cancelar" type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                         </div>
                         </form>
