@@ -26,9 +26,33 @@ class inventarioController{
         }
     }
 
-    public static function ctrlUpdatePlanta($data){
+    public static function ctrlUpdatePlanta($data,$img){
         try{
-            return inventarioModel::editarPlanta($data);
+            if($data["ImagenActual"] != ""){
+                $img = $data["ImagenActual"];
+            }
+            return inventarioModel::editarPlanta($data,$img);
+        }catch(Exception $e){
+            Utilities::alerta($e->getMessage());
+        }
+    }
+
+    public static function ctrlVerificarCantidad($data){
+        try{
+            if($data["Cantidad"] > inventarioModel::getCantidad($data)[0]['stock']){
+                return false;
+            }else{
+                return true;
+            }
+        }catch(Exception $e){
+            Utilities::alerta($e->getMessage());
+        }
+    }
+
+    public static function ctrlComprarPlanta($data){
+        try{
+            $nuevaCantidad = inventarioModel::getCantidad($data)[0]['stock'] - $data["Cantidad"];
+            return inventarioModel::restarCantidad($data,$nuevaCantidad);
         }catch(Exception $e){
             Utilities::alerta($e->getMessage());
         }
