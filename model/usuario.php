@@ -37,11 +37,10 @@ class User {
 
     public function register($username, $email, $password) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        $id_rol = $es_admin ? self::ROL_ADMIN : self::ROL_CLIENTE;
-        $query = "INSERT INTO usuario (username, nombre, primer_apellido, segundo_apellido, correo, password, id_rol) 
-                  VALUES ('$username', '$nombre', '$primer_apellido', '$segundo_apellido', '$correo', '$hashedPassword', $id_rol)";
-        return Database::getData($query);
+        $query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("sss", $username, $email, $hashedPassword);
+        return $stmt->execute();
     }
 
     public function login($username, $password) {
