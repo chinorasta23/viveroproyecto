@@ -11,7 +11,7 @@ require_once("Utilities.php");
         $conexion = mysqli_connect(
             'localhost',
             'root',
-            'Nicolle123@',
+            '',
             'viveroproyecto'
         ) or die ('No se puede conectar a la DB');
 

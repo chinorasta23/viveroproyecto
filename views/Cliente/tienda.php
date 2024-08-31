@@ -52,9 +52,14 @@
                         <a class="nav-link active text-light" aria-current="page" href="tienda.php">Tienda</a>
                     </li>
                 </ul>
-                <span class="navbar-text text-light">
-                    <?php echo htmlspecialchars($username); ?>
-                </span>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <?php echo htmlspecialchars($username); ?>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="../../controllers/AuthControllers.php?action=logout">Cerrar sesión</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>

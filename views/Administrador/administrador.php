@@ -11,7 +11,7 @@
                     $target = "../../assetts/uploads/" . basename($_FILES["Imagen"]["name"]);
                     move_uploaded_file($_FILES["Imagen"]["tmp_name"], $target);
                 }
-                //header('Location: administrador.php');
+                header('Location: administrador.php');
                 break;
             case 'borrar':
                 inventarioController::ctrlDelPlanta($_GET['id']);
@@ -52,7 +52,7 @@
                     </ul>
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <!--?php echo htmlspecialchars($username); ?-->
+                            <?php echo htmlspecialchars($username); ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="../../controllers/AuthControllers.php?action=logout">Cerrar sesión</a></li>
@@ -71,11 +71,11 @@
                 <img src="../../assetts/uploads/<?=$planta['img']?>.jpg" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title"><?=$planta['nombre_popular']?></h5>
-                    <p class="card-text"><?=$planta['nombre_cientifico']?></p>
-                    <p class="card-text"><?=$planta['clima']?></p>
-                    <p class="card-text"><?=$planta['descripcion']?></p>
-                    <p class="card-text"><?=$planta['precio']?></p>
-                    <p class="card-text"><?=$planta['stock']?></p>
+                    <p class="card-text"><b>Nombre Cientifico: </b><?=$planta['nombre_cientifico']?></p>
+                    <p class="card-text"><b>Clima: </b><?=$planta['clima']?></p>
+                    <p class="card-text"><b>Descripcion: </b><?=$planta['descripcion']?></p>
+                    <p class="card-text"><b>Precio: </b><?=$planta['precio']?></p>
+                    <p class="card-text"><b>Cantidad: </b><?=$planta['stock']?></p>
                     <div class="d-grid gap-2">
                         <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editarModal<?=$planta['id_planta']?>" role="button">Editar</a>
                     </div>
