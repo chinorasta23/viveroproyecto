@@ -1,6 +1,9 @@
 <?php 
+session_start();
     require_once("../../controllers/inventarioController.php");
     $inventario = inventarioController::ctrlGetPlantas();
+
+    $username = $_SESSION['usuario'];
 
     if(isset($_GET['accion'])){
         switch($_GET['accion']){
@@ -49,6 +52,9 @@
                         <li class="nav-item">
                             <a class="nav-link active text-light" aria-current="page" href="formularioPlanta.php">Agregar</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active text-light" aria-current="page" href="../Cliente/index.php">Regresar al sitio</a>
+                        </li>
                     </ul>
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -68,7 +74,7 @@
         ?>
         <div class="col">
             <div class="card h-100">
-                <img src="../../assetts/uploads/<?=$planta['img']?>.jpg" class="card-img-top">
+                <img src="<?= htmlspecialchars($planta['img']) ?>" class="img-fluid card-img-top" alt="<?= htmlspecialchars($planta['nombre_popular']) ?>">
                 <div class="card-body">
                     <h5 class="card-title"><?=$planta['nombre_popular']?></h5>
                     <p class="card-text"><b>Nombre Cientifico: </b><?=$planta['nombre_cientifico']?></p>

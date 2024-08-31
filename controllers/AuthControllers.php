@@ -62,13 +62,7 @@ class AuthController {
         if ($resultado['exito']) {
             session_start();
             $_SESSION['usuario'] = $post['username'];
-            $_SESSION['id_rol'] = $es_admin ? Usuario::ROL_ADMIN : Usuario::ROL_CLIENTE;
-
-            if ($es_admin) {
-                header("Location: ../views/Administrador/administrador.php");
-            } else {
-                header("Location: ../views/cliente/index.php");
-            }
+            header("Location: ../views/cliente/index.php");
             exit();
         } else {
             $_SESSION['error_registro'] = "Error al registrar el usuario: " . $resultado['error'];
@@ -88,12 +82,9 @@ class AuthController {
             session_start();
             $_SESSION['usuario'] = $this->usuario->getUsername();
             $_SESSION['id_rol'] = $this->usuario->getIdRol();
-
-            if ($_SESSION['id_rol'] == Usuario::ROL_ADMIN) {
-                header("Location: ../views/Administrador/administrador.php");
-            } else {
-                header("Location: ../views/cliente/index.php");
-            }
+            
+            header("Location: ../views/cliente/index.php");
+        
             exit();
         } else {
             $_SESSION['error_login'] = "Nombre de usuario o contraseña incorrectos";
@@ -106,7 +97,7 @@ class AuthController {
         session_start();
         session_unset();
         session_destroy();
-        header("Location: ../views/login.php");
+        header("Location: ../views/cliente/index.php");
         exit();
     }
 

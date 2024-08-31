@@ -1,5 +1,5 @@
 .background-image {
-    background-image: url("https://e0.pxfuel.com/wallpapers/375/101/desktop-wallpaper-flowers-bokeh-yellow-green-pink-colorful-dark-6000-x-4000-px-background.jpg");
+    background-image: url("https://www.emagister.com/blog/wp-content/uploads/2023/01/GettyImages-1363636142.jpg");
 }
 
 .bg-green-light {
@@ -10,8 +10,28 @@
     background-color: #0a452a;
 }
 
-.full-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.main-color{
+    background-color: rgb(25,135,84);;
+}
+
+.sidebar {
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgb(188, 238, 188);
+    color: rgb(0, 0, 0);
+    padding: 1rem;
+}
+.sidebar a {
+    color: #0a452a;
+    text-decoration: none;
+}
+.sidebar a:hover {
+    color: ##0a452a;
+}
+.content {
+    margin-left: 260px;
+    padding: 2rem;
 }

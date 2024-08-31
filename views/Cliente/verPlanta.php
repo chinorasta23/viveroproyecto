@@ -1,13 +1,9 @@
 <?php
     require_once("../../controllers/inventarioController.php");
 
-    // Iniciar la sesión y obtener el nombre de usuario
     session_start();
-    $username = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Invitado';
+    $username = isset($_SESSION['usuario']) ? htmlspecialchars($_SESSION['usuario']) : 'Invitado';
 
-    $inventario = inventarioController::ctrlGetPlantas();
-
-    require_once("../../model/usuario.php");
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_cart'])) {
         $plantaId = $_POST['id_planta'];
@@ -17,16 +13,17 @@
         exit;
     }
 
+    $id_planta = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
+    $plantaData = inventarioController::ctrlgetPlantaId($id_planta);
 
-    if (isset($_SESSION['usuario'])) {
-        $rol = $_SESSION['id_rol'];
-        
-        $esAdmin = $rol == Usuario::ROL_ADMIN;
-    } else {
-        $esAdmin = false;
+    if (!$plantaData || !isset($plantaData[0])) {
+        echo "Producto no encontrado.";
+        exit;
     }
-    
+
+    $planta = $plantaData[0];
+
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +31,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vivero - Tienda</title>
+    <title>Detalles del Producto</title>
     <link rel="stylesheet" href="../../css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>    
@@ -60,8 +57,6 @@
                         <a class="nav-link text-light" href="tienda.php">Tienda</a>
                     </li>
                 </ul>
-                <a class="nav-link text-light mx-4" href="carrito.php"><i class="fas fa-cart-plus    "></i></a>
-    
                 <div class="nav-item dropdown">
                     <?php if (isset($_SESSION['usuario'])): ?>
                         <a class="btn btn-light text-dark dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -82,73 +77,31 @@
         </div>
     </nav>
 
-    <div class="row text-center mt-5 pt-5">
-                        <h2>Tienda</h2>
+    <div class="container mt-4">
+        <div class="container container-fluid">
+            <div class="row my-5 py-5">
+                <a class="btn btn-dark col-1" href="tienda.php"><i class="fas fa-arrow-left"></i></a>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="<?= htmlspecialchars($planta['img']) ?>" class="img-fluid" alt="<?= htmlspecialchars($planta['nombre_popular']) ?>">
+            </div>
+            <div class="col-md-6">
+                <h2><?=$planta['nombre_popular']?></h2>
+                <p><strong>Nombre popular:</strong> <?= isset($planta['nombre_popular']) ? htmlspecialchars($planta['nombre_popular']) : 'No disponible' ?></p>
+                <p><strong>Nombre científico:</strong> <?= isset($planta['nombre_cientifico']) ? htmlspecialchars($planta['nombre_cientifico']) : 'No disponible' ?></p>
+                <p><strong>Clima:</strong> <?= isset($planta['clima']) ? htmlspecialchars($planta['clima']) : 'No disponible' ?></p>
+                <p><strong>Descripción:</strong> <?= isset($planta['descripcion']) ? htmlspecialchars($planta['descripcion']) : 'No disponible' ?></p>
+                <p><strong>Precio:</strong> <?= isset($planta['precio']) ? htmlspecialchars($planta['precio']) : 'No disponible' ?> colones</p> 
 
-    <div class="row row-cols-1 row-cols-md-3 g-4" style="padding: 1%; padding-right: 15%; padding-left: 15%;">
-        <?php
-            foreach($inventario as $planta){
-        ?>
-        <div class="col">
-            <div class="card h-100" >
-            <img src="<?= htmlspecialchars($planta['img']) ?>" class="img-fluid card-img-top" alt="<?= htmlspecialchars($planta['nombre_popular']) ?>">
-                <div class="card-body">
-                    <h5 class="card-title text-center"><?=$planta['nombre_popular']?></h5>
-                </div>
-                <div class="row text-center">
-                        <p>₡ <?=$planta['precio']?></p>
-                        <span>Stock: (<?=$planta['stock']?>)</span>
-                    </div>
-                <div class="card-footer text-center">
-                        <a class="btn btn-success col" href="verPlanta.php?id=<?=$planta['id_planta']?>">Ver Detalles</a>
-                    <form method="POST" action="">
+
+                <form method="POST" action="">
                         <input type="hidden" name="id_planta" value="<?= $planta['id_planta'] ?>">
                         <button type="submit" name="add_to_cart" class="btn btn-success col">Añadir al Carrito <i class="fas fa-cart-plus"></i></button>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
-
-        <?php
-            }
-        ?>
-    </div>
-
-    <footer>
-        <div class="row row-cols-4 bg-success p-3">
-            <div class="col text-center">
-                <h4 class="text-light">Vivero</h4>
-                <div class="border-bottom"></div>
-                <div class="p-3">
-                    <p class="text-light">Nuestro vivero cuenta con gran variedad de plantas y flores de la mas alta calidad y totalmente organico</p>
-                </div>
-            </div>
-            <div class="col text-center">
-                <h4 class="text-light">Acerca De</h4>
-                <div class="border-bottom"></div>
-                <div class="p-3">
-                    <p class="text-light">Somos un negocio familiar que impregna su pasion y amor por las plantas en cada entrega hacia nuestros clientes</p>
-                </div>
-            </div>
-            <div class="col text-center">
-                <h4 class="text-light">Contacto</h4>
-                <div class="border-bottom"></div>
-                <div class="p-3">
-                    <p class="text-light">Tel. 8888-8888</p>
-                </div>
-            </div>
-            <div class="col text-center">
-                <h4 class="text-light">Redes Sociales</h4>
-                <div class="border-bottom"></div>
-                <div class="p-3">
-                    <p class="text-light">@Stardew</p>
-                </div>
-            </div>
-        </div>
-        <div class="row text-center p-3 bg-green-darker">
-            <span class="text-light" >Copyright 2024 - Vivero</span>
-        </div>
-    </footer>
+</div>
 </body>
 </html>

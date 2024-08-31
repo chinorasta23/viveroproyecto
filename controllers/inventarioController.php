@@ -18,6 +18,14 @@ class inventarioController{
         }
     }
 
+    public static function ctrlgetPlantaId($data){
+        try{
+            return inventarioModel::getPlantaID($data);
+        }catch(Exception $e){
+            Utilities::alerta($e->getMessage());
+        }
+    }
+
     public static function ctrlDelPlanta($data){
         try{
             return inventarioModel::eliminarPlanta($data);
@@ -37,26 +45,58 @@ class inventarioController{
         }
     }
 
-    public static function ctrlVerificarCantidad($data){
-        try{
-            if($data["Cantidad"] > inventarioModel::getCantidad($data)[0]['stock']){
-                return false;
-            }else{
-                return true;
+    public static function ctrlAddToCart($plantaId, $cantidad) {
+        // Ensure the session is started
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    
+        // Ensure 'carrito' is an array
+        if (!isset($_SESSION['carrito']) || !is_array($_SESSION['carrito'])) {
+            $_SESSION['carrito'] = []; // Initialize as an empty array if not set or not an array
+        }
+    
+        // Normalize any scalar values in 'carrito'
+        foreach ($_SESSION['carrito'] as $key => $value) {
+            if (!is_array($value)) {
+                // Convert the scalar value to an array with default details
+                $_SESSION['carrito'][$key] = [
+                    'id_planta' => $key,
+                    'cantidad' => $value
+                ];
             }
-        }catch(Exception $e){
-            Utilities::alerta($e->getMessage());
+        }
+    
+        // Check if the plant is already in the cart
+        if (isset($_SESSION['carrito'][$plantaId])) {
+            // Update the quantity
+            $_SESSION['carrito'][$plantaId]['cantidad'] += $cantidad;
+        } else {
+            // Add the plant to the cart
+            $planta = inventarioModel::getPlantaID($plantaId);
+            if ($planta) {
+                $_SESSION['carrito'][$plantaId] = [
+                    'id_planta' => $plantaId,
+                    'nombre' => $planta[0]['nombre_popular'],
+                    'precio' => $planta[0]['precio'],
+                    'cantidad' => $cantidad,
+                    'img' => $planta[0]['img']
+                ];
+                
+            }
         }
     }
 
-    public static function ctrlComprarPlanta($data){
-        try{
-            $nuevaCantidad = inventarioModel::getCantidad($data)[0]['stock'] - $data["Cantidad"];
-            return inventarioModel::restarCantidad($data,$nuevaCantidad);
-        }catch(Exception $e){
-            Utilities::alerta($e->getMessage());
+    public static function ctrlRemoveFromCart($id_planta) {
+        if (isset($_SESSION['carrito'][$id_planta])) {
+            unset($_SESSION['carrito'][$id_planta]);
         }
     }
+    
+    
+
+
+
 
 }
 

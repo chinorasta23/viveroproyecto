@@ -10,8 +10,8 @@ class Usuario {
     private $password;
     private $id_rol;
 
-    const ROL_CLIENTE = 1;
-    const ROL_ADMIN = 2;
+    const ROL_CLIENTE = 2;
+    const ROL_ADMIN = 1;
 
     public function __construct() {
         // Constructor vacío
@@ -60,8 +60,21 @@ class Usuario {
     public static function obtenerPorUsername($username) {
         $query = "SELECT * FROM usuario WHERE username = '$username'";
         $resultado = Database::getData($query);
-        return !empty($resultado) ? $resultado[0] : null;
+    
+        if (!empty($resultado)) {
+            $data = $resultado[0];
+            $usuario = new Usuario();
+            $usuario->setUsername($data['username']);
+            $usuario->setNombre($data['nombre']);
+            $usuario->setPrimerApellido($data['primer_apellido']);
+            $usuario->setSegundoApellido($data['segundo_apellido']);
+            $usuario->setCorreo($data['correo']);
+            $usuario->setIdRol($data['id_rol']);
+            return $usuario;
+        }
+        return null;
     }
+    
 
     public static function obtenerRoles() {
         return [
@@ -79,7 +92,7 @@ class Usuario {
                   WHERE username = '$this->username'";
         return Database::getData($query);
     }
-
+    
     public function cambiarPassword($nueva_password) {
         $hashedPassword = password_hash($nueva_password, PASSWORD_DEFAULT);
         $query = "UPDATE usuario SET password = '$hashedPassword' WHERE username = '$this->username'";
@@ -95,5 +108,29 @@ class Usuario {
         $query = "DELETE FROM usuario WHERE username = '$this->username'";
         return Database::getData($query);
     }
+
+    public function obtenerHistorialVenta() {
+        // Construir la consulta para llamar al procedimiento almacenado
+        $query = "CALL ObtenerHistorialVenta('{$this->username}')";
+        
+        // Ejecutar la consulta usando el método getData
+        $result = Database::getData($query);
+    
+        // Verificar si el resultado es un array
+        if (is_array($result)) {
+            return $result;
+        } else {
+            return []; // Retornar un array vacío en caso de error
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+
 }
 ?>

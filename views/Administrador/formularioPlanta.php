@@ -1,6 +1,15 @@
 <?php
+session_start();
+    if (!isset($_SESSION['usuario'])) {
+        header("Location: ../login.php");
+        exit();
+    }
+
     require_once("../../controllers/inventarioController.php");
     require_once("../../model/Utilities.php");
+
+    $username = $_SESSION['usuario'];
+
     if(isset($_POST['agregar'])){
         $img = basename($_FILES["Imagen"]["name"],".jpg");
         $result = inventarioController::ctrlAddPlanta($_POST,$img);

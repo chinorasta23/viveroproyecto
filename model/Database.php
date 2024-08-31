@@ -12,7 +12,7 @@ require_once("Utilities.php");
             'localhost',
             'root',
             '',
-            'viveroproyecto'
+            'sad'
         ) or die ('No se puede conectar a la DB');
 
         //Ejecucion de los Scripts
