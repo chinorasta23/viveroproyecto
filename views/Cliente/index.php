@@ -54,7 +54,7 @@ $username = $_SESSION['usuario'];
     <section class="mt-5">
         <div class="container-fluid background-image">
             <div class="row text-center py-5">
-                <h1 class="text-light">Bienvenidos</h1>
+                <h1 style="color: Black;">Bienvenidos</h1>
             </div>
         </div>
     </section>
@@ -138,7 +138,7 @@ $username = $_SESSION['usuario'];
                 <h4 class="text-light">Redes Sociales</h4>
                 <div class="border-bottom"></div>
                 <div class="p-3">
-                    <p class="text-light">@vivero</p>
+                    <p class="text-light">@Stardew</p>
                 </div>
             </div>
         </div>

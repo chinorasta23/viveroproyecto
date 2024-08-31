@@ -28,7 +28,7 @@ class inventarioController{
 
     public static function ctrlUpdatePlanta($data,$img){
         try{
-            if($data["ImagenActual"] != ""){
+            if($data["ImagenActual"] != "" && $img == ""){
                 $img = $data["ImagenActual"];
             }
             return inventarioModel::editarPlanta($data,$img);
