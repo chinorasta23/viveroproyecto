@@ -1,63 +1,99 @@
 <?php
-class User {
-    private $id;
+require_once("Database.php");
+
+class Usuario {
     private $username;
-    private $email;
-    private $db;
+    private $nombre;
+    private $primer_apellido;
+    private $segundo_apellido;
+    private $correo;
+    private $password;
+    private $id_rol;
 
-    function __construct($db) {
-        $this->db = $db;
-    }
+    const ROL_CLIENTE = 1;
+    const ROL_ADMIN = 2;
 
-    // Setters
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    public function setUsername($username) {
-        $this->username = $username;
-    }
-
-    public function setEmail($email) {
-        $this->email = $email;
+    public function __construct() {
+        // Constructor vacío
     }
 
     // Getters
-    public function getId() {
-        return $this->id;
-    }
+    public function getUsername() { return $this->username; }
+    public function getNombre() { return $this->nombre; }
+    public function getPrimerApellido() { return $this->primer_apellido; }
+    public function getSegundoApellido() { return $this->segundo_apellido; }
+    public function getCorreo() { return $this->correo; }
+    public function getIdRol() { return $this->id_rol; }
 
-    public function getUsername() {
-        return $this->username;
-    }
+    // Setters
+    public function setUsername($username) { $this->username = $username; }
+    public function setNombre($nombre) { $this->nombre = $nombre; }
+    public function setPrimerApellido($primer_apellido) { $this->primer_apellido = $primer_apellido; }
+    public function setSegundoApellido($segundo_apellido) { $this->segundo_apellido = $segundo_apellido; }
+    public function setCorreo($correo) { $this->correo = $correo; }
+    public function setIdRol($id_rol) { $this->id_rol = $id_rol; }
 
-    public function getEmail() {
-        return $this->email;
-    }
-
-    public function register($username, $email, $password) {
+    public function registro($username, $nombre, $primer_apellido, $segundo_apellido, $correo, $password, $es_admin) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("sss", $username, $email, $hashedPassword);
-        return $stmt->execute();
+        $id_rol = $es_admin ? self::ROL_ADMIN : self::ROL_CLIENTE;
+        $query = "INSERT INTO usuario (username, nombre, primer_apellido, segundo_apellido, correo, password, id_rol) 
+                  VALUES ('$username', '$nombre', '$primer_apellido', '$segundo_apellido', '$correo', '$hashedPassword', $id_rol)";
+        return Database::getData($query);
     }
 
     public function login($username, $password) {
-        $query = "SELECT * FROM users WHERE username = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
-
-        if ($user && password_verify($password, $user['password'])) {
-            $this->setId($user['id']);
-            $this->setUsername($user['username']);
-            $this->setEmail($user['email']);
-            return $user;
+        $query = "SELECT * FROM usuario WHERE username = '$username'";
+        $resultado = Database::getData($query);
+        
+        if (!empty($resultado) && password_verify($password, $resultado[0]['password'])) {
+            $this->setUsername($resultado[0]['username']);
+            $this->setNombre($resultado[0]['nombre']);
+            $this->setPrimerApellido($resultado[0]['primer_apellido']);
+            $this->setSegundoApellido($resultado[0]['segundo_apellido']);
+            $this->setCorreo($resultado[0]['correo']);
+            $this->setIdRol($resultado[0]['id_rol']);
+            return true;
         }
         return false;
+    }
+
+    public static function obtenerPorUsername($username) {
+        $query = "SELECT * FROM usuario WHERE username = '$username'";
+        $resultado = Database::getData($query);
+        return !empty($resultado) ? $resultado[0] : null;
+    }
+
+    public static function obtenerRoles() {
+        return [
+            self::ROL_CLIENTE => 'Cliente',
+            self::ROL_ADMIN => 'Administrador'
+        ];
+    }
+
+    public function actualizarPerfil($nombre, $primer_apellido, $segundo_apellido, $correo) {
+        $query = "UPDATE usuario SET 
+                  nombre = '$nombre', 
+                  primer_apellido = '$primer_apellido', 
+                  segundo_apellido = '$segundo_apellido', 
+                  correo = '$correo' 
+                  WHERE username = '$this->username'";
+        return Database::getData($query);
+    }
+
+    public function cambiarPassword($nueva_password) {
+        $hashedPassword = password_hash($nueva_password, PASSWORD_DEFAULT);
+        $query = "UPDATE usuario SET password = '$hashedPassword' WHERE username = '$this->username'";
+        return Database::getData($query);
+    }
+
+    public static function listarUsuarios() {
+        $query = "SELECT username, nombre, primer_apellido, segundo_apellido, correo, id_rol FROM usuario";
+        return Database::getData($query);
+    }
+
+    public function eliminarCuenta() {
+        $query = "DELETE FROM usuario WHERE username = '$this->username'";
+        return Database::getData($query);
     }
 }
 ?>
